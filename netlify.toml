@@ -1,0 +1,26 @@
+# Netlify config for the IT Support USER PANEL
+[build]
+  command = "npm install && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Send /api calls to the backend on the admin site (same-origin for the browser,
+# so login cookies work and no CORS setup is needed).
+[[redirects]]
+  from   = "/api/*"
+  to     = "https://gleaming-conkies-c4ac38.netlify.app/api/:splat"
+  status = 200
+  force  = true
+
+# React routes (/signup, /login, /reset-password ...) load index.html
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
